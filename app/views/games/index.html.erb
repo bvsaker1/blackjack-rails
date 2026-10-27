@@ -1,0 +1,61 @@
+<%# <div style="width:100vw;height:100vh;background-color:green"> %>
+
+<div class="title">
+    <h1>Blackjack</h1>
+</div>
+<div class="main_container">
+    <div class="left_container">
+        <div class="score">
+            <div><b>Dealer Score:&nbsp;</b></div>
+            <div id="dealer_score">5</div>
+        </div>
+        <div class="play_button">
+            <button>Hit</button>
+        </div>
+    </div>
+    <div class="middle_container">
+        <div id="dealer_cards" class="cards">
+            <p>Dealer Cards</p>
+            <div class="hand">
+                <div class="card">
+                    <%= image_tag "cards/back.png", alt: "Back of Card" %>
+                </div>
+                <div class="card">
+                    <%= image_tag "cards/HK.png", alt: "10 of Clubs" %>
+                </div>
+
+            </div>
+            <div class="score">
+                <div><b>Hand Score:&nbsp;</b></div>
+                <div id="dealer_hand_score">15</div>
+            </div>
+        </div>
+        <div style="text-align:center">
+            <button>Deal</button>
+        </div>
+        <div id="player_cards" class="cards">
+            <p>Player Cards</p>
+            <div class="hand">
+                <div class="card">
+                    <%= image_tag "cards/C10.png", alt: "10 of Clubs" %>
+                </div>
+                <div class="card">
+                    <%= image_tag "cards/HA.png", alt: "10 of Clubs" %>
+                </div>
+            </div>
+            <div class="score">
+                <div><b>Hand Score:&nbsp;</b></div>
+                <div id="player_hand_score">15</div>
+            </div>
+        </div>
+    </div>
+    <div class="right_container">
+        <div class="score">
+            <div><b>Player Score:&nbsp;</b></div>
+            <div id="player_score">5</div>
+        </div>
+        <div class="play_button">
+            <button>Stand</button>
+        </div>
+    </div>
+</div>
