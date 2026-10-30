@@ -45,7 +45,6 @@ class Game < ApplicationRecord
     deck_cards.update_all(hand_id: discard_hand_id.id)
   end
 
-
   def hand_finished_check
     dealer_hand = hands.find_by(role: "dealer")
     player_hand = hands.find_by(role: "player")
@@ -53,7 +52,11 @@ class Game < ApplicationRecord
     dhand_score = dealer_hand.get_hand_score
     phand_score = player_hand.get_hand_score
 
-    if phand_score == 21 ||
+    pblackjack = player_hand.is_blackjack?
+    dblackjack = dealer_hand.is_blackjack?
+
+    if  pblackjack && !dblackjack ||
+      phand_score == 21 ||
       (phand_score < 21 && phand_score > dhand_score) ||
       dhand_score > 21
       unless player_score.nil?
@@ -61,7 +64,8 @@ class Game < ApplicationRecord
         save!
       end
       player_won!
-    elsif phand_score > 21 ||
+    elsif dblackjack && !pblackjack ||
+      phand_score > 21 ||
       phand_score < dhand_score
       unless dealer_score.nil?
         increment!(:dealer_score)

@@ -24,9 +24,11 @@
 .title {
     border: 1px solid black;
     text-align: center;
+    font-size: x-large;
     /* width: 100vw; */
     height: 100px;
     color: white;
+    text-shadow: 4px 4px 0 black;
 }
 
 .main_container {
@@ -150,6 +152,10 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-shadow: 4px 4px 0 black;
+    font-size: x-large;
+    color: white;
+
 }
 
 .status_area h1 {

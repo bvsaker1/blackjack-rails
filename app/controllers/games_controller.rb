@@ -38,40 +38,24 @@ class GamesController < ApplicationController
 
     @game.in_progress!
 
-    redirect_to root_path
+    score_21_check
   end
 
   def hit
     # add a card from the deck which is next deck_card in the list with hand_id=nil
     @game.add_card_to_hand("player")
 
-    player_hand = @game.hands.find_by(role: "player")
-
-    if player_hand.get_hand_score >= 21
-      @game.hand_finished_check
-    end
-
-    redirect_to root_path
+    score_21_check
   end
 
   def stand
-    # evaluate the hand scores and determine a winner
     # finish the dealer hand
     @game.dealer_turn!
-    # dealer_hand = @game.hands.find_by(role: "dealer")
-
-    # if dealer_hand.get_hand_score < 17
-    #   add_card_to_hand("dealer")
-    # else
-    #   @game.hand_finished_check
-    # end
 
     redirect_to root_path
   end
 
   def reset
-    # @game.update!(status: :waiting, player_score: 0, dealer_score: 0)
-    # shuffle
     @game.destroy
 
     redirect_to root_path
@@ -102,5 +86,20 @@ class GamesController < ApplicationController
     end
 
     logger.info("Shuffled Deck")
+  end
+
+  def score_21_check
+    player_hand = @game.hands.find_by(role: "player")
+    score = player_hand.get_hand_score
+
+    if score == 21
+      stand
+    else
+      if score > 21
+        @game.hand_finished_check
+      end
+
+      redirect_to root_path
+    end
   end
 end
