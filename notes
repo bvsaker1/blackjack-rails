@@ -1,0 +1,102 @@
+Black Jack programming assignment on Rails
+Research how I should layout this project using erb or served separately.
+Components
+Deck of cards of 52 or 4 of 13.  I need pngs for each one.
+Manage the state of the game.
+Game consists of
+Dealer and player
+52 card deck
+Periodic shuffling
+Actions of Hit or stand/split
+Keep score somehow with bets?
+Initially just show boxes for cards with printed card value.
+Initial start screen with play button and splash screen
+Deal button.  My game deals with a 104 card deck.
+Screens
+Start screen
+Deal screen
+Dealt screen
+ Dealer cards on top and mine on bottom
+Hit on left
+Stand on right and split under certain circumstances.
+Points for dealer above stand button
+Points for player below stand button
+State could be stored in a database
+Number of cards in the deck
+Cards dealt vs cards left (can be calculated)
+Cards in dealer hand
+Cards in player hand
+Scores or money left
+Blackjack database
+Game table, could also contain saved games
+Cards in deck
+Cards dealt
+Cards in player hand
+Cards in dealer hand
+Score or money
+Concerns with the database would be none if multiple games
+Games
+Id, name, cards, cards_dealt, score, dealer_hand, dealer_score, (could be json object), player_hand, player_score
+Deck
+Cards dealt
+Cards total count
+Cards json
+{ “remaining”:[{“type”:”hearts”, “number”:”5”.
+Enumeration with shuffled deck being 1 to 52 where random(out of count cards remaining) for the shuffled array 
+How are the scores stored in a players hand?
+I don’t really need to save the game.  When the site is left and restarted then the slate is cleaned up.  That said, I still need to track the cards left array and the cards in the dealer and player hand, dealer and player score. Therefore, no need for a database.
+
+Models
+
+class Game {
+    int id,
+    int player_score,
+    int dealer_score,
+    int deck_id,
+    int hand_id,
+    
+    def reset_game 
+    end
+
+    def check_winner
+    end
+}
+
+class Cards {
+    enum cards { DIAMONDS=1, HEARTS, SPADES, CLUBS } 
+    
+    def card value(card)
+    end
+
+    def card_type(card)
+    end
+
+    def card_number(card)
+    end
+} 
+
+class Deck {
+    int cards_id
+    int cards_remaining[]
+
+    def shuffle_cards?
+    end
+
+    def shuffle_cards
+    end
+}
+
+class Hands {
+    int id,
+    Cards dealer_hand[],
+    Cards player_hand[]
+
+    def hit
+    end
+
+    def stand
+    end
+}
+
+# controllers
+game

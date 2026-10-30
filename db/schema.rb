@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_26_225639) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_30_011055) do
   create_table "cards", force: :cascade do |t|
     t.string "suit"
     t.string "rank"
@@ -42,6 +42,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_26_225639) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "dealer_score", default: 0, null: false
+    t.integer "player_score", default: 0, null: false
   end
 
   create_table "hands", force: :cascade do |t|

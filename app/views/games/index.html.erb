@@ -1,4 +1,12 @@
 <%# <div style="width:100vw;height:100vh;background-color:green"> %>
+<%  if @game.dealer_turn? %>
+        <meta http-equiv="refresh" content="1">
+<%  end
+    finished = false
+    if @game.dealer_won? || @game.player_won? || @game.push?
+        finished = true  %>
+        <meta http-equiv="refresh" content="5">
+<%  end %>
 
 <div class="title">
     <h1>Blackjack</h1>
@@ -7,55 +15,101 @@
     <div class="left_container">
         <div class="score">
             <div><b>Dealer Score:&nbsp;</b></div>
-            <div id="dealer_score">5</div>
+            <div id="dealer_score">
+                <%= @game.dealer_score %>
+            </div>
         </div>
-        <div class="play_button">
-            <button>Hit</button>
-        </div>
+        <% if @game.in_progress? %>
+            <div class="play_button">
+                <%= button_to "Hit", hit_path %>
+            </div>
+        <% end %>
+        <% if @game.in_progress? || @game.waiting? || finished %>
+            <div class="reset_button">
+                <%= button_to "Reset", reset_path %>
+            </div>
+        <% end %>
     </div>
     <div class="middle_container">
         <div id="dealer_cards" class="cards">
             <p>Dealer Cards</p>
-            <div class="hand">
-                <div class="card">
-                    <%= image_tag "cards/back.png", alt: "Back of Card" %>
+            <% cards = get_dealer_cards %>
+            <% if @game.in_progress? %>
+                <div class="hand">
+                    <div class="card">
+                        <% cards = get_dealer_cards %>
+                        <%= image_tag "cards/back.png", alt: "Back of Card" %>
+                    </div>
+                    <div class="card">
+                        <%= image_tag cards[1].image_file, alt: cards[1].alt_text %>
+                    </div>
                 </div>
-                <div class="card">
-                    <%= image_tag "cards/HK.png", alt: "10 of Clubs" %>
+            <% elsif finished || @game.dealer_turn? || @game.waiting? %>
+                <div class="hand">
+                    <%  
+                        cards.each do |card| %>
+                            <div class="card">
+                                <%= image_tag card.image_file, alt: card.alt_text %>
+                            </div>
+                    <%  end %>
                 </div>
-
-            </div>
+            <% end %>
             <div class="score">
                 <div><b>Hand Score:&nbsp;</b></div>
-                <div id="dealer_hand_score">15</div>
+                <div id="dealer_hand_score">
+                    <%  if @game.in_progress? %>
+                    <%      dealer_hand_score = @game.dealer_hand.get_visible_score %>
+                    <%  else %>
+                    <%      dealer_hand_score = @game.dealer_hand.get_hand_score %>
+                    <%  end  %>
+                    <%= dealer_hand_score %>
+                </div>
             </div>
         </div>
-        <div style="text-align:center">
-            <button>Deal</button>
+        <%  player_hand_score = @game.player_hand.get_hand_score %>    
+        <div class="status_area">
+        <%  if @game.waiting? %>
+            <%= button_to "Deal", deal_path %>
+        <%  elsif @game.dealer_won? %>
+            <h1>Dealer Won!</h1>
+        <%  elsif @game.player_won? %>
+            <h1>Player Won!</h1>
+        <%  elsif @game.push? %>
+            <h1>Push!</h1>
+        <%  end %>
         </div>
         <div id="player_cards" class="cards">
             <p>Player Cards</p>
-            <div class="hand">
-                <div class="card">
-                    <%= image_tag "cards/C10.png", alt: "10 of Clubs" %>
+            <% cards = get_player_cards %>
+            <% if @game.in_progress? || finished || @game.dealer_turn? || @game.waiting? %>
+                <div class="hand">
+                    <%  
+                        cards.each do |card| %>
+                            <div class="card">
+                                <%= image_tag card.image_file, alt: card.alt_text %>
+                            </div>
+                    <%  end %>
                 </div>
-                <div class="card">
-                    <%= image_tag "cards/HA.png", alt: "10 of Clubs" %>
-                </div>
-            </div>
+            <% end %>
             <div class="score">
                 <div><b>Hand Score:&nbsp;</b></div>
-                <div id="player_hand_score">15</div>
+                <div id="player_hand_score">
+                    <%= player_hand_score %>
+                </div>
             </div>
         </div>
     </div>
     <div class="right_container">
         <div class="score">
             <div><b>Player Score:&nbsp;</b></div>
-            <div id="player_score">5</div>
+            <div id="player_score">
+                <%= @game.player_score %>
+            </div>
         </div>
-        <div class="play_button">
-            <button>Stand</button>
-        </div>
+        <% if @game.in_progress? %>
+            <div class="play_button">
+                <%= button_to "Stand", stand_path %>
+            </div>
+        <% end %>
     </div>
 </div>

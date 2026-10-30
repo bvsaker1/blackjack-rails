@@ -12,4 +12,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root "games#index"
+
+  post "deal" => "games#deal"
+  post "hit" => "games#hit"
+  post "stand" => "games#stand"
+  post "reset" => "games#reset"
 end
