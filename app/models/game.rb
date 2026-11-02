@@ -56,7 +56,7 @@ class Game < ApplicationRecord
     dblackjack = dealer_hand.is_blackjack?
 
     if  pblackjack && !dblackjack ||
-      phand_score == 21 ||
+      phand_score == 21 && dhand_score != 21 ||
       (phand_score < 21 && phand_score > dhand_score) ||
       dhand_score > 21
       unless player_score.nil?
